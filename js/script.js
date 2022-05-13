@@ -44,11 +44,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
   //функция определяет разницу между deadline и нашим рекущим временем
   function getTimeRemaining(endtime) {
+    let days, hours, minutes, seconds;
+
     const t = Date.parse(endtime) - Date.parse(new Date());
-    const days = Math.floor(t / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((t / 1000 / 60) % 60);
-    const seconds = Math.floor((t / 1000) % 60);
+
+    if (t <= 0) {
+      days = 0;
+      hours = 0;
+      minutes = 0;
+      seconds = 0;
+    } else {
+      const days = Math.floor(t / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((t / 1000 / 60) % 60);
+      const seconds = Math.floor((t / 1000) % 60);
+    }
 
     return {
       total: t,
