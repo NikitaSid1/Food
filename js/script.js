@@ -44,21 +44,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   //функция определяет разницу между deadline и нашим рекущим временем
   function getTimeRemaining(endtime) {
-    let days, hours, minutes, seconds;
-
     const t = Date.parse(endtime) - Date.parse(new Date());
-
-    if (t <= 0) {
-      days = 0;
-      hours = 0;
-      minutes = 0;
-      seconds = 0;
-    } else {
-      const days = Math.floor(t / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((t / 1000 / 60) % 60);
-      const seconds = Math.floor((t / 1000) % 60);
-    }
+    const days = Math.floor(t / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((t / 1000 / 60) % 60);
+    const seconds = Math.floor((t / 1000) % 60);
 
     return {
       total: t,
@@ -101,4 +91,38 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   setClock('.timer', deadline);
+
+  // modal window
+  //модальное окно
+  // для кнопок, которые выполняют одинаковые действия можно задать дата атрибуты
+
+  const modalTrigger = document.querySelectorAll('[data-modal');
+  const modal = document.querySelector('.modal');
+  const modalCloseBtn = document.querySelector('[data-close]');
+
+  modalTrigger.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      modal.classList.add('show');
+      modal.classList.remove('hide');
+    });
+  });
+  //закрытие модального окна кликом на крестик(close) и кликом на клавишу esc
+  // правильный участок кода! потому что повторяется код 2 раза => нужно создать функцию
+  function closeModal() {
+    modal.classList.add('hide');
+    modal.classList.remove('show');
+  }
+  modalCloseBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.code === 'Escape' && modal.classList.contains('show')) {
+      closeModal();
+    }
+  });
 });
